@@ -26,9 +26,6 @@ public class AccountController {
   @Autowired
   private AccountService service;
   
-//@Autowired
-//private WebClient client;
-
 /** Muestra los registros de la tabla * @return registro de la tabla seleccionada. */
 @GetMapping
 public Mono<ResponseEntity<Flux<Account>>> findAll() {
@@ -49,7 +46,10 @@ public Mono<ResponseEntity<Account>> findById(@PathVariable("id") String id) {
       .map(c -> ResponseEntity
           .ok()
           .contentType(MediaType.APPLICATION_JSON)
-          .body(c));    
+          .body(c))
+      .defaultIfEmpty(ResponseEntity
+          .noContent()
+          .build());    
 }
 
 @GetMapping("/client/{id}")
@@ -68,22 +68,10 @@ public Mono<ResponseEntity<Flux<Account>>> findByClientId(@PathVariable("id") St
 public Mono<ResponseEntity<Account>> 
     create(@RequestBody Account account, final ServerHttpRequest request) {
   
-  /*
-   * {
-     * cliente: {
-     *  id : 1
-     * },
-     * product: {
-     *  id : 1
-     * }
-   * }
-   *       
-   * */
-  
 //  Flux<Account> clientAccount = service.findByClientId(account.getClient().getId());
       
   
-//  if (account.getProduct().getId().equals("1") && account.getClient().getId().equals("1")) {
+//  if (account.getProduct().getId().equals(clientAccount) && account.getClient().getId().equals(clientAccount)) {
 //    return Mono.just(ResponseEntity.badRequest().build());
 //  }
   
